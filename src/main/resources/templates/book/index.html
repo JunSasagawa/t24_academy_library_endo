@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common :: meta_header('書籍一覧',~{::link},~{::script})}">
+    <title th:text="${title}+' | MTLibrary'"></title>
+    <link rel="stylesheet" th:href="@{/css/book/index.css}" />
+    <script type="text/javascript" th:src="@{/js/book/index.js}"></script>
+</head>
+<body>
+    <div class="contents">
+        <div th:replace="~{common :: main_sidebar}"></div>
+        <div class="main_contents">
+            <div th:replace="~{common :: header}"></div>
+            <div class="inner_contens">
+                <div class="page_title">書籍一覧</div>
+                <div class="page_contents">
+                    <div class="inner_contens__operation">
+                        <a th:href="@{/book/add}" class="meta-operation-btn"><img src="../images/icons/add.png" alt="stock" />書籍登録</a>
+                    </div>
+                    <table class="books_table" align="left">
+                        <tr>
+                            <th>書籍名</th>
+                            <th>ISBN</th>
+                            <th>利用可能在庫数</th>
+                        </tr>
+                        <tr th:each="bookMst : ${bookMstList}">
+                            <td th:inline="text">
+                                <div class="book_title_contents">
+                                    <a th:href="@{/book/{id}/edit(id=*{bookMst.id})}" class=""><img class="edit_icon" src="../images/icons/edit.png" alt="edit" /></a>
+                                    <a href="#" class="" onClick="openDeleteModal()"><img class="trash_icon" src="../images/icons/trash.png" alt="trash" /></a>
+                                    <span>[[${bookMst.title}]]</span>
+                                </div>
+                            </td>
+                            <td th:text="${bookMst.isbn}"></td>
+                            <td th:inline="text">
+                                <span class="stockcount"> [[${bookMst.stockCount}]]冊</span>
+                                <a th:href="@{/stock/add}">在庫追加</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{common :: footer}"></div>
+</body>

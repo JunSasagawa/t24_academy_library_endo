@@ -1,0 +1,40 @@
+header {
+    padding: 20px;
+    text-align: center;
+    background-color: #607D8E;
+    color: #ffffff;
+}
+
+.contents {
+    margin: 0 auto;
+}
+
+.main_contents .header {
+    height: 20px;
+}
+.main_contents .inner_contens {
+    text-align: center;
+}
+
+#register_form {
+    padding: 20px;
+    border-color: darkgrey;
+    border-radius: 10px;
+    width: 600px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+#register_form table {
+    margin: 0 auto 30px auto;
+}
+#register_form table td {
+    padding: 10px 15px;
+    text-align: left;
+}
+
+.btn_block {
+    display: flex;
+    justify-content: space-around;
+}
+

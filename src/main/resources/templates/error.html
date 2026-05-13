@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{common :: meta_header('エラー',~{::link},~{::script})}">
+        <title th:text="${title}+' | MTLibrary'"></title>
+    </head>
+    <body>
+        <div class="contents">
+            <div th:replace="~{common :: common_sidebar}"></div>
+            <div class="main_contents">
+                <div th:replace="~{common :: header}"></div>
+                <div class="inner_contens error">
+                    <div class="page_title" th:text="${status} + ' : ' + ${error}"></div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="th_param">Param</th>
+                                <th class="th_value">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>path</td>
+                                <td th:text="${path}"></td>
+                            </tr>
+                            <tr>
+                                <td>timestamp</td>
+                                <td th:text="${timestamp}"></td>
+                            </tr>
+                            <tr>
+                                <td>exception</td>
+                                <td th:text="${exception}"></td>
+                            </tr>
+                            <tr>
+                                <td>message</td>
+                                <td th:text="${message}"></td>
+                            </tr>
+                            <tr>
+                                <td>errors</td>
+                                <td th:text="${errors}"></td>
+                            </tr>
+                            <tr>
+                                <td>trace</td>
+                                <td><textarea th:text="${trace}" readonly></textarea></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div th:replace="~{common :: footer}"></div>
+    </body>
+</html>

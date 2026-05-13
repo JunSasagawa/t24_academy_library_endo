@@ -1,0 +1,19 @@
+.table_wrapper {
+    width: 100%;
+}
+
+#detail_table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+#detail_table tr th,
+#detail_table tr td {
+    border: 1px solid #B9B9B9;
+    padding: 10px;
+}
+
+#detail_table .column_title {
+    width: 200px;
+}

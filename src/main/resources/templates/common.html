@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<!-- (1)共通にしたいheadをfragment化する -->
+<head th:fragment="meta_header(title,links,scripts)">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- (2)共通で読み込むCSS/JS -->
+    <link rel="stylesheet" href="/mt_library/css/common.css" />
+    <script type="text/javascript" src="/mt_library/js/common.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- (3)タイトルのフォーマット -->
+    <title th:text="${title}+' | MTLibrary'">各ページタイトル | MTLibrary</title>
+
+    <!-- (4)各View固有で読み込むもの -->
+    <th:block th:replace="${links} ?: _" />
+    <th:block th:replace="${scripts} ?: _" />
+</head>
+<body>
+    <!-- (5)body内で共通化したい部品をfragment化する -->
+    <div class="header" th:fragment="header">
+        <div>
+            <label class="account" for="menu1"><img class="user_icon" th:src="@{/images/icons/user.png}">
+                <span>管理者</span><img class="under_arrow" th:src="@{/images/icons/under_arrow.png}"/>
+            </label>
+        </div>
+        
+        <div class="menu_container">
+            <input type="checkbox" id="menu1" class="on-off" />
+            <div class="menu">
+                <form th:action="@{/logout}" method="post">
+                    <img class="logout" th:src="@{/images/icons/logout.png}" />
+                    <input class="submit_btn" type="submit" name="logout" value="ログアウト" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar" th:fragment="common_sidebar">
+        <div class="app_name">MT書籍管理</div>
+    </div>
+
+    <div class="sidebar" th:fragment="main_sidebar">
+        <div class="app_name">MT書籍管理</div>
+        <div id="sidebar_menu">
+            <details class="menu_inner">
+                <summary class="menu_item">
+                    <a class="menu_link" th:href="@{/book/index}"><img th:src="@{/images/icons/book.png}" alt="book"/>書籍一覧</a>
+                </summary>
+                <div class="menu_item second">
+                    <a class="menu_link" th:href="@{/book/add}">書籍登録</a>
+                </div>
+            </details>
+            <details class="menu_inner">
+                <summary class="menu_item">
+                    <a class="menu_link" th:href="@{/stock/index}"><img th:src="@{/images/icons/stock.png}" alt="stock"/>在庫一覧</a>
+                </summary>
+                <div class="menu_item second">
+                    <a class="menu_link" th:href="@{/stock/add}">在庫登録</a>
+                </div>
+            </details>
+            <div class="menu_item">
+                <a class="menu_link" th:href="@{/stock/calendar}"><img th:src="@{/images/icons/calendar.png}" alt="calendar"/>在庫カレンダー</a>
+            </div>
+            <details class="menu_inner">
+                <summary class="menu_item">
+                    <a class="menu_link" th:href="@{/rental/index}"><img th:src="@{/images/icons/rental.png}" alt="book" />貸出一覧</a>
+                </summary>
+                <div class="menu_item second">
+                    <a class="menu_link" th:href="@{/rental/add}">貸出登録</a>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <footer th:fragment="footer">
+        <div>
+            Copyright 2024 ＭＥＴＡＴＥＡＭ株式会社
+        </div>
+    </footer>
+</body>
+</html>

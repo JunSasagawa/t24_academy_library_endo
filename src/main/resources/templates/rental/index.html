@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common :: meta_header('貸出一覧',~{::link},~{::script})}">
+    <title th:text="${title}+' | MTLibrary'"></title>
+    <link rel="stylesheet" th:href="@{/css/rental/index.css}" />
+</head>
+<body>
+    <div class="contents">
+        <div th:replace="~{common :: main_sidebar}"></div>
+        <div class="main_contents">
+            <div th:replace="~{common :: header}"></div>
+            <div class="inner_contens">
+                <div class="page_title">貸出一覧</div>
+                <div class="status">
+                    <form id="rental_index_form" th:object="${rentalManage}" th:action="@{/rental/index}" method="post">
+                    <label for="status">ステータス:</label>
+                    <select id="status" name="status">
+                        <option name="All" value=>貸出一覧</option>
+                        <option name="Wait" value=0>貸出待ち</option>
+                        <option name="Rentaled" value="1">貸出中</option>
+                        <option name="Return" value="2">返却済み</option>
+                        <option name="Cansel" value="3">キャンセル</option>
+                    </select>
+                    <button type="submit">更新</button>
+                    </form>
+                </div>
+                <div class="add_btn">
+                    <a th:href="@{/rental/add}">
+                        <span><img src="../images/icons/add.png" alt="add"/></span>
+                        <span>貸出登録</span>
+                    </a>
+                </div>
+                <table id="manage_table">
+                    <thead>
+                        <tr>
+                            <th>貸出管理番号</th>
+                            <th>書籍名</th>
+                            <th>在庫管理番号</th>
+                            <th>貸出ステータス</th>
+                            <th>貸出情報</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="rentalManage : ${rentalManageList}" th:object="${rentalManage}">
+                            <td>
+                                <div class="manage_item_menu">
+                                    <div><a th:href="@{/rental/{id}/edit(id=*{id})}"><img src="../images/icons/edit.png" alt="edit"/></a></div>
+                                    <div th:text="*{id}"></div>
+                                </div>
+                            </td>
+                            <td>
+                                <div th:text="*{stock.bookMst.title}"></div>
+                            </td>
+                            <td>
+                                <div th:text="*{stock.id}"></div>
+                            </td>
+                            <td th:switch="*{status}">
+                                <div th:case=0 th:text="貸出待ち"></div>
+                                <div th:case=1 th:text="貸出中"></div>
+                                <div th:case=2 th:text="返却済み"></div>
+                                <div th:case=3 th:text="キャンセル"></div>
+                            </td>
+                            <td>
+                                <div th:text="${'利用者：' + rentalManage.account.name}"></div>
+                                <th:block th:switch="${rentalManage.rentaledAt == null}">
+                                    <th:block th:case=true>
+                                        <div th:text="${'貸出予定日：' + #dates.format(rentalManage.expectedRentalOn, ('yyyy/MM/dd'))}"></div>
+                                    </th:block>
+                                    <th:block th:case=*>
+                                        <div th:text="${'貸出開始日：' + #dates.format(rentalManage.rentaledAt, ('yyyy/MM/dd'))}"></div>
+                                    </th:block>
+                                </th:block>
+                                <div th:text="${'返却予定日：' + #dates.format(rentalManage.expectedReturnOn, ('yyyy/MM/dd'))}"></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{common :: footer}"></div>
+</body>

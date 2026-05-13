@@ -1,0 +1,36 @@
+services:
+  # データベース
+  metateam_academy_mysql:
+    build: ./docker/mysql
+    container_name: 'metateam_academy_mysql_new'
+    volumes:
+      - ./docker/mysql/logs:/var/log/mysql # コンテナのログを同期
+      - ./docker/mysql/initdb:/docker-entrypoint-initdb.d
+      - db-store:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+  # ストレージ
+  metateam_academy_minio:
+    build: ./docker/minio
+    container_name: metateam_academy_minio_new
+    volumes:
+      - ./docker/minio:/export
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    command: ['server', '/export', '--console-address', ':9001']
+
+  # アプリ本体
+  metateam_academy_app:
+    build: ./docker/mt_library
+    container_name: metateam_academy_app_new
+    tty: true
+    working_dir: /app
+    volumes:
+      - ./:/app
+    ports:
+      - 8080:8080 # 通常実行用
+      - 5005:5005 # デバッグ用
+volumes:
+  db-store:

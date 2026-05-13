@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{common :: meta_header('在庫詳細',~{::link},~{::script})}">
+    <title th:text="${title}+' | MTLibrary'"></title>
+    <link rel="stylesheet" th:href="@{/css/stock/detail.css}" />
+    <script type="text/javascript" th:src="@{/js/stock/detail.js}"></script>
+</head>
+
+<body>
+    <div class="contents">
+        <div th:replace="~{common :: main_sidebar}"></div>
+        <div class="main_contents">
+            <div th:replace="~{common :: header}"></div>
+            <div class="inner_contens">
+                <div class="page_title">在庫詳細</div>
+                <div class="table_wrapper mb30">
+                    <table id="detail_table">
+                        <tr>
+                            <td class="column_title">在庫管理番号</td>
+                            <td th:text="*{stock.id}"></td>
+                        </tr>
+                        <tr>
+                            <td class="column_title">書籍名</td>
+                            <td th:text="*{stock.bookMst.title}">嫌われる勇気</td>
+                        </tr>
+                        <tr>
+                            <td class="column_title">在庫ステータス</td>
+                            <td th:text="*{stock.status == 0 ? '利用可' : '利用不可'}"></td>
+                        </tr>
+                        <tr>
+                            <td class="column_title">貸出情報</td>
+                            <td>
+                                <div th:if="${not #lists.isEmpty(stock.rentalManages)}">
+                                    <div th:text="${'利用者：' + stock.rentalManages[0].account.name}"></div>
+                                    <div
+                                        th:text="${'返却予定日：' + #dates.format(stock.rentalManages[0].expectedReturnOn, ('yyyy/MM/dd'))}">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <a th:href="@{/stock/index}" class="link">← 一覧へ戻る</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{common :: footer}"></div>
+</body>

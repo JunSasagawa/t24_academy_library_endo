@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{common :: meta_header('在庫登録',~{::link},~{::script})}">
+    <title th:text="${title}+' | MTLibrary'"></title>
+    <link rel="stylesheet" th:href="@{/css/stock/add.css}" />
+    <script type="text/javascript" th:src="@{/js/stock/add.js}"></script>
+</head>
+
+<body>
+    <div class="contents">
+        <div th:replace="~{common :: main_sidebar}"></div>
+        <div class="main_contents">
+            <div th:replace="~{common :: header}"></div>
+            <div class="inner_contens">
+                <div class="page_title">在庫登録</div>
+                <div class="mb30 flexarea">
+                    <span class="text-red">＊は必須項目です</span>
+                    <span>
+                        <a th:href="@{/stock/index}" class="link">← 一覧へ戻る</a>
+                    </span>
+                </div>
+
+                <form id="stock_add_form" th:object="${stockDto}" th:action="@{/stock/add}" method="post">
+                    <div class="mb30">
+                        <label for="bookSelector">書籍名<span class="text-red asterisk">＊</span></label>
+                        <select id="bookSelector" class="form_input" name="bookId" placeholder="書籍名を選択" required>
+                            <option value="">書籍名を選択</option>
+                            <option th:each="bookMst : ${bookMstList}" th:value="${bookMst.id}"
+                                th:text="${bookMst.title}" th:selected="${bookMst.id == stockDto.bookId}"></option>
+                        </select>
+                        <div class="error_msg" th:if="${#fields.hasErrors('bookId')}" th:errors="*{bookId}"></div>
+                    </div>
+                    <div class="mb30">
+                        <label for="stockMngNumber">在庫管理番号<span class="text-red asterisk">＊</span></label>
+                        <input type="text" id="stockMngNumber" class="form_input" name="id" th:value="*{id}"
+                            placeholder="在庫管理番号を入力" required>
+                        <div class="error_msg" th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></div>
+                    </div>
+                    <div class="mb30">
+                        <label for="price">購入金額</label>
+                        <input type="number" id="price" class="form_input" name="price" min="0" th:value="*{price}"
+                            placeholder="購入金額を入力">
+                        <div class="error_msg" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+                    </div>
+                    <div class="mb30">
+                        <label for="bookSelector">在庫ステータス<span class="text-red asterisk">＊</span></label>
+                        <select id="bookSelector" class="form_input" name="status" required>
+                            <option value="">ステータスを選択</option>
+                            <option th:each="status : ${stockStatus}" th:value="${status.value}"
+                                th:text="${status.text}" th:selected="${status.value == stockDto.status}"></option>
+                        </select>
+                        <div class="error_msg" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></div>
+                    </div>
+                    <div class="btn_block">
+                        <button type="submit" id="submit_btn">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{common :: footer}"></div>
+</body>
